@@ -6,10 +6,12 @@
 package images.modeles;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -21,9 +23,11 @@ public class Image implements Serializable {
     public Image() {
     }
 
-    public Image(String name, String hash, String md5) {
+    public Image(String name, String hashPic, Date date, String pathPic, String md5) {
+        this.hashPic = hashPic;
+        this.date = date;
+        this.pathPic = pathPic;
         this.name = name;
-        this.hash = hash;
         this.md5 = md5;
     }
 
@@ -31,8 +35,13 @@ public class Image implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private String hashPic;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date date;
+    private String pathPic;
 
     private String name;
+    private String md5;
 
     /**
      * Get the value of name
@@ -52,27 +61,29 @@ public class Image implements Serializable {
         this.name = name;
     }
 
-    private String hash;
-
-    /**
-     * Get the value of hash
-     *
-     * @return the value of hash
-     */
-    public String getHash() {
-        return hash;
+    public String getHashPic() {
+        return hashPic;
     }
 
-    /**
-     * Set the value of hash
-     *
-     * @param hash new value of hash
-     */
-    public void setHash(String hash) {
-        this.hash = hash;
+    public void setHashPic(String hashPic) {
+        this.hashPic = hashPic;
     }
 
-    private String md5;
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getPathPic() {
+        return pathPic;
+    }
+
+    public void setPathPic(String pathPic) {
+        this.pathPic = pathPic;
+    }
 
     /**
      * Get the value of md5

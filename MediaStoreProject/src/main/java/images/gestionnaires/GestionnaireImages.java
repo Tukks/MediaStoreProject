@@ -5,7 +5,9 @@
  */
 package images.gestionnaires;
 
+import images.analyzer.ImageDescriptor;
 import images.modeles.Image;
+import java.io.File;
 import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -23,13 +25,43 @@ public class GestionnaireImages {
 
     public void creerImagesDetest() {
         Date d = new Date(10, 12, 2014);
-        creerImage("nom", "hdhd", "C:/");
-        creerImage("nom1", "hdsshd", "C:/");
+        creerImage("nom", "hdhd", "hash", new Date(), "C:");
+        creerImage("nom", "hdhd", "hash", new Date(), "C:");
 
     }
 
-    public Image creerImage(String nom, String md5, String hash) {
-        Image i = new Image(nom, md5, hash);
+    /*
+     To do : generate Hash, and md5
+     */
+    public void dropPicture(String path) {
+        File root = new File(path);
+        File[] list = root.listFiles();
+
+        if (list == null) {
+            if (root.isFile()) {
+                ImageDescriptor id = ImageDescriptor.readFromDisk(root.getAbsolutePath());
+                Date date = new Date(root.lastModified());
+                creerImage(root.getName(), "", "", date, id.getPath());
+                System.out.println("File:" + root.getAbsoluteFile());
+            }
+        } else {
+
+            for (File f : list) {
+                if (f.isDirectory()) {
+                    dropPicture(f.getAbsolutePath());
+                    System.out.println("Dir:" + f.getAbsoluteFile());
+                } else {
+                    ImageDescriptor id = ImageDescriptor.readFromDisk(f.getAbsolutePath());
+                    Date date = new Date(f.lastModified());
+                    creerImage(f.getName(), "", "", date, id.getPath());
+                    System.out.println("File:" + f.getAbsoluteFile());
+                }
+            }
+        }
+    }
+
+    public Image creerImage(String nom, String md5, String hash, Date date, String path) {
+        Image i = new Image(nom, hash, date, path, md5);
         em.persist(i);
 
         return i;
