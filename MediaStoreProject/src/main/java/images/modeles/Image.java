@@ -25,7 +25,7 @@ public class Image implements Serializable {
 
     public Image(String name, String hashPic, Date date, String pathPic, String md5) {
         this.hashPic = hashPic;
-        this.date = date;
+        this.dates = date;
         this.pathPic = pathPic;
         this.name = name;
         this.md5 = md5;
@@ -37,7 +37,7 @@ public class Image implements Serializable {
     private int id;
     private String hashPic;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date date;
+    private Date dates;
     private String pathPic;
 
     private String name;
@@ -70,11 +70,11 @@ public class Image implements Serializable {
     }
 
     public Date getDate() {
-        return date;
+        return dates;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.dates = date;
     }
 
     public String getPathPic() {

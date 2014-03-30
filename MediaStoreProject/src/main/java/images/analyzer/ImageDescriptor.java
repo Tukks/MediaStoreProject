@@ -34,7 +34,7 @@ public class ImageDescriptor {
         try {
             FileInputStream fi = new FileInputStream(f);
             data = new int[(int) size];
-			//int read = fi.read(data);
+            //int read = fi.read(data);
             //System.out.println("ImageDescriptor.main() read " + read + " bytes from file");
             id = new ImageDescriptor(path, size, modifiedTime);
         } catch (FileNotFoundException e) {
@@ -154,11 +154,6 @@ public class ImageDescriptor {
     @Override
     public String toString() {
         return "[path=" + path + "\n size=" + size + ",\n mtime=" + mtime + "]";
-    }
-
-    public static void main(String[] args) {
-        String path = "C:\\Users\\giuse_000\\Pictures\\164897_10201054548104840_376225746_n.jpg";
-        //  System.out.println(ImageDescriptor.readFromDisk(path));
     }
 
 }

@@ -25,8 +25,8 @@ public class GestionnaireImages {
 
     public void creerImagesDetest() {
         Date d = new Date(10, 12, 2014);
-        creerImage("nom", "hdhd", "hash", new Date(), "C:");
-        creerImage("nom", "hdhd", "hash", new Date(), "C:");
+        creerImage("nom", "hdhd", "hash", d, "C:");
+        creerImage("nom", "hdhd", "hash", d, "C:");
 
     }
 
@@ -36,6 +36,7 @@ public class GestionnaireImages {
     public void dropPicture(String path) {
         File root = new File(path);
         File[] list = root.listFiles();
+        System.out.println(root.getAbsolutePath());
 
         if (list == null) {
             if (root.isFile()) {
