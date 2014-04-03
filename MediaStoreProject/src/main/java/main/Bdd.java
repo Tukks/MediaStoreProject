@@ -37,14 +37,5 @@ public class Bdd {
         conn.close();
     }
     
-    public void createTable() throws ClassNotFoundException, SQLException{
-        DeleteDbFiles.execute("~", "test", true);
-        Class.forName("org.h2.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:h2:~/test","root","root");
-        java.sql.Statement stat = conn.createStatement();
-        stat.execute("create table test(id int primary key, name varchar(255))");
-         System.out.println("Table crée");
-        stat.close();
-        conn.close();
-    }
+
 }
