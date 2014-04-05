@@ -19,9 +19,10 @@ public class Bdd {
         //génère un ID aléatoire
         int nb = (int) (Math.random() * 100);
         addImage(nb, "c:\\", 1, 1, "testmd5", "testhash", 1, 1);
-        //getImage(1);
+        //Pour avoir l'image avec l'id 8
+        //getImage(8);
         //pour effacer image avec id 6
-        delImage(56);
+        //delImage(50);
         getAllImage();
     }
 
@@ -74,13 +75,22 @@ public class Bdd {
         ResultSet rs;
         rs = stat.executeQuery(concat);
         while (rs.next()) {
-            System.out.println("Description de l'image :");
+            System.out.println("Image numéro :");
             System.out.println(rs.getString("ID_FILE"));
             System.out.println("Path :");
             System.out.println(rs.getString("PATH"));
             System.out.println("Taille :");
             System.out.println(rs.getString("SIZE"));
-
+            System.out.println("Crée le :");
+            System.out.println(rs.getString("MTIME"));
+            System.out.println("MD5 :");
+            System.out.println(rs.getString("MD5"));
+            System.out.println("HASH :");
+            System.out.println(rs.getString("HASH"));
+            System.out.println("LAT :");
+            System.out.println(rs.getString("LAT"));
+            System.out.println("LON :");
+            System.out.println(rs.getString("LON"));
         }
         stat.close();
         conn.close();
