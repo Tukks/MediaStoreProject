@@ -11,27 +11,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.h2.tools.DeleteDbFiles;
 
-/**
- *
- * @author Justin
- */
 public class Bdd {
 
     Connection conn;
 
     public static void main(String args[]) throws ClassNotFoundException, SQLException {
-        addImage("test");
-   
+        //génère un ID aléatoire
+        int nb = (int) (Math.random() * 100);
+        addImage(nb, "c:\\", 1, 1, "testmd5", "testhash", 1, 1);
         //getImage(1);
-        delImage(6);
+        //pour effacer image avec id 6
+        delImage(56);
         getAllImage();
     }
 
-    public static void addImage(String path) throws ClassNotFoundException, SQLException {
+    public static void addImage(int nb, String path, int size, int mtime, String md5, String hash, int lat, int lon) throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
         Connection conn = DriverManager.getConnection("jdbc:h2:./src/main/resources/mediaproject", "root", "root");
         java.sql.Statement stat = conn.createStatement();
-        stat.execute("insert into FILES values(8,'"+ path  +"',1,1,'n','n',1,1)");
+        stat.execute("insert into FILES values(" + nb + ",'" + path + "'," + size + "," + mtime + ",'" + md5 + "','" + hash + "'," + lat + "," + lon + ")");
         System.out.println("Ajout de l'image");
         stat.close();
         conn.close();
@@ -51,6 +49,16 @@ public class Bdd {
             System.out.println(rs.getString("PATH"));
             System.out.println("Taille :");
             System.out.println(rs.getString("SIZE"));
+            System.out.println("Crée le :");
+            System.out.println(rs.getString("MTIME"));
+            System.out.println("MD5 :");
+            System.out.println(rs.getString("MD5"));
+            System.out.println("HASH :");
+            System.out.println(rs.getString("HASH"));
+            System.out.println("LAT :");
+            System.out.println(rs.getString("LAT"));
+            System.out.println("LON :");
+            System.out.println(rs.getString("LON"));
 
         }
         stat.close();
@@ -81,7 +89,7 @@ public class Bdd {
     public static void delImage(int id) throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
         Connection conn = DriverManager.getConnection("jdbc:h2:./src/main/resources/mediaproject", "root", "root");
-        java.sql.Statement stat = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        java.sql.Statement stat = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         String requeteSQL = "SELECT * FROM FILES WHERE ID_File = '";
         String concat = requeteSQL.concat(id + "'");
         ResultSet rs;
