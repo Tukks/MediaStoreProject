@@ -20,15 +20,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static main.Bdd.addImage;
+import static main.Bdd.getAllImage;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class TraitementImage {
 
-    public static void main(String[] args) throws ImageProcessingException, IOException, MetadataException, ParseException {
+    public static void TraitementImage(String chemin) throws ImageProcessingException, IOException, ClassNotFoundException, SQLException {
         String lat = null;
         String lon = null;
+        String ARGB = null;
         File jpegFile = new File("f://test.jpg");
         Date date = null;
         long size = jpegFile.length();
@@ -48,13 +54,19 @@ public class TraitementImage {
 
             }
         }
-        System.out.println("Latitude :" + lat);
-        System.out.println("Longitude :" + lon);
-        System.out.println("Taille :" + size);
-        System.out.println("Date : " + date);
-        System.out.println("Chemin :" + path);
         String md5 = generateMD5(jpegFile);
-        System.out.println("MD5 :" + md5);
+        ARGB = main.hash.generateSignature(jpegFile.toString());
+
+        lat = convertGPS(lat);
+        lon = convertGPS(lon);
+        int nb = (int) (Math.random() * 100);
+        addImage(nb, path, size, date.toString(), md5, "hash", lat, lon, ARGB);
+
+    }
+
+    public static String convertGPS(String coor) {
+        String convert = coor.replaceAll("[°,\",']", "");;
+        return convert;
 
     }
 
@@ -70,5 +82,50 @@ public class TraitementImage {
         byte[] buffer = DigestUtils.md5(fi);
         String s = DigestUtils.md5Hex(buffer);
         return s;
+    }
+
+    public static void main(String[] args) {
+        try {
+            TraitementImage("test");
+            getAllImage();
+        } catch (ImageProcessingException ex) {
+            Logger.getLogger(TraitementImage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(TraitementImage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TraitementImage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TraitementImage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Cette méthode permet de parcourir tous les fichiers contenus dans un
+     * repertoire entré et ses sous-repertoires. On veut s'arrêter au à un seuil
+     * de profondeur entré k
+     */
+    public static void itererRepertoire(String repertoire, int j) {
+
+        File dir = new File(repertoire);
+        System.out.println(repertoire);
+        System.out.println("j : " + j);
+        //Once you have the appropriate path, you can iterate through its contents:  
+        //List directory  
+        // si le repertoire courant est bien un repertoire  
+        if (dir.isDirectory()) {
+            String s[] = dir.list();
+            for (int i = 0; i < s.length; i++) {
+
+                File dirTemp = new File(repertoire + s[i] + "\\");
+                // si le terme de la liste est lui-même un répertoire                 
+                if (dirTemp.isDirectory() && j > 0) {
+                    itererRepertoire(repertoire + s[i] + "\\", j - 1);
+                }
+                // si le terme de la liste est un fichier  
+                if (!dirTemp.isDirectory()) {
+                    System.out.println("fichier : " + s[i]);
+                }
+            }
+        }
     }
 }

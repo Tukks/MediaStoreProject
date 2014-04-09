@@ -1,0 +1,9 @@
+04-03 14:30:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "FILES" not found; SQL statement:
+select * from FILES [42102-175]
+04-03 14:31:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "FILES" not found; SQL statement:
+select * from FILES [42102-175]
+04-03 14:33:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "FILES" not found; SQL statement:
+select * from FILES [42102-175]

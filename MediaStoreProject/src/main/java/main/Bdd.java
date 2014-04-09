@@ -15,22 +15,11 @@ public class Bdd {
 
     Connection conn;
 
-    public static void main(String args[]) throws ClassNotFoundException, SQLException {
-        //génère un ID aléatoire
-        int nb = (int) (Math.random() * 100);
-        addImage(nb, "c:\\", 1, 1, "testmd5", "testhash", 1, 1);
-        //Pour avoir l'image avec l'id 8
-        //getImage(8);
-        //pour effacer image avec id 6
-        //delImage(50);
-        getAllImage();
-    }
-
-    public static void addImage(int nb, String path, int size, int mtime, String md5, String hash, int lat, int lon) throws ClassNotFoundException, SQLException {
+    public static void addImage(int nb, String path, long size, String mtime, String md5, String hash, String lat, String lon, String ARGB ) throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
         Connection conn = DriverManager.getConnection("jdbc:h2:./src/main/resources/mediaproject", "root", "root");
         java.sql.Statement stat = conn.createStatement();
-        stat.execute("insert into FILES values(" + nb + ",'" + path + "'," + size + "," + mtime + ",'" + md5 + "','" + hash + "'," + lat + "," + lon + ")");
+        stat.execute("insert into FILES values(" + nb + ",'" + path + "'," + size + ",'" + mtime + "','" + md5 + "','" + hash + "','" + lat + "','" + lon + "','" + ARGB +"')");
         System.out.println("Ajout de l'image");
         stat.close();
         conn.close();
@@ -60,6 +49,8 @@ public class Bdd {
             System.out.println(rs.getString("LAT"));
             System.out.println("LON :");
             System.out.println(rs.getString("LON"));
+            System.out.println("ARGB :");
+            System.out.println(rs.getString("ARGB"));
 
         }
         stat.close();
@@ -91,6 +82,8 @@ public class Bdd {
             System.out.println(rs.getString("LAT"));
             System.out.println("LON :");
             System.out.println(rs.getString("LON"));
+            System.out.println("ARGB :");
+            System.out.println(rs.getString("ARGB"));
         }
         stat.close();
         conn.close();
