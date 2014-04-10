@@ -94,15 +94,11 @@ public class TraitementImage {
     }
 
     public static void main(String[] args) throws ImageProcessingException, IOException, ClassNotFoundException, SQLException, ParseException {
-        itererRepertoire("C:\\Users\\Justin\\Pictures\\projet", 0);
+        itererRepertoire("C:\\Users\\Justin\\Pictures\\projet\\testImages\\", 0);
         //getAllImage();
     }
 
-    /**
-     * Cette méthode permet de parcourir tous les fichiers contenus dans un
-     * repertoire entré et ses sous-repertoires. On veut s'arrêter au à un seuil
-     * de profondeur entré k
-     */
+
     public static void itererRepertoire(String repertoire, int j) throws ImageProcessingException, IOException, ClassNotFoundException, SQLException, ParseException {
 
         File dir = new File(repertoire);
@@ -117,8 +113,9 @@ public class TraitementImage {
 
                 File dirTemp = new File(repertoire + s[i] + "\\");
                 // si le terme de la liste est lui-même un répertoire                 
-                if (dirTemp.isDirectory() && j > 0) {
+                if (dirTemp.isDirectory()) {
                     itererRepertoire(repertoire + s[i] + "\\", j - 1);
+
                 }
                 // si le terme de la liste est un fichier  
                 if (!dirTemp.isDirectory()) {
