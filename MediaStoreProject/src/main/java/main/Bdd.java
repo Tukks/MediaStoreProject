@@ -15,11 +15,11 @@ public class Bdd {
 
     Connection conn;
 
-    public static void addImage(int nb, String path, long size, String mtime, String md5, String hash, String lat, String lon, String ARGB ) throws ClassNotFoundException, SQLException {
+    public static void addImage(String path, long size, String mtime, String md5, String hash, String lat, String lon, String ARGB ) throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
         Connection conn = DriverManager.getConnection("jdbc:h2:./src/main/resources/mediaproject", "root", "root");
         java.sql.Statement stat = conn.createStatement();
-        stat.execute("insert into FILES values(" + nb + ",'" + path + "'," + size + ",'" + mtime + "','" + md5 + "','" + hash + "','" + lat + "','" + lon + "','" + ARGB +"')");
+        stat.execute("insert into FILES (PATH,SIZE,MTIME,MD5,HASH,LAT,LON,ARGB) values('" + path + "'," + size + ",'" + mtime + "','" + md5 + "','" + hash + "','" + lat + "','" + lon + "','" + ARGB +"')");
         System.out.println("Ajout de l'image");
         stat.close();
         conn.close();
